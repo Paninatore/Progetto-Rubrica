@@ -1,0 +1,59 @@
+{% for contatto in contatti %}
+<div class="modal fade" id="modaleModifica{{ contatto.id }}" tabindex="-1" aria-labelledby="modaleModificaLabel{{ contatto.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="azione" value="modifica">
+        <input type="hidden" name="contatto_id" value="{{ contatto.id }}">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modaleModificaLabel{{ contatto.id }}">Modifica Contatto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+        </div>
+        <div class="modal-body">
+          {% if form_edit and contatto_da_modificare and contatto.id == contatto_da_modificare.id %}
+            <div class="mb-3">
+              <label>Nome</label>
+              {{ form_edit.nome }}
+              {% if form_edit.nome.errors %}
+                <div class="text-danger small">{{ form_edit.nome.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label>Cognome</label>
+              {{ form_edit.cognome }}
+              {% if form_edit.cognome.errors %}
+                <div class="text-danger small">{{ form_edit.cognome.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label>Telefono</label>
+              {{ form_edit.telefono }}
+              {% if form_edit.telefono.errors %}
+                <div class="text-danger small">{{ form_edit.telefono.errors.0 }}</div>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="mb-3">
+              <label>Nome</label>
+              <input type="text" class="form-control" name="nome" value="{{ contatto.nome }}" required>
+            </div>
+            <div class="mb-3">
+              <label>Cognome</label>
+              <input type="text" class="form-control" name="cognome" value="{{ contatto.cognome }}" required>
+            </div>
+            <div class="mb-3">
+              <label>Telefono</label>
+              <input type="text" class="form-control" name="telefono" value="{{ contatto.telefono }}" required>
+            </div>
+          {% endif %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+          <button type="submit" class="btn btn-warning">Salva modifiche</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
