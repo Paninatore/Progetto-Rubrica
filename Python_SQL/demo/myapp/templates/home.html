@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Pagina Iniziale{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="mb-4">
+        <h1 class="mb-3">Rubrica</h1>
+        <div class="text-end mb-3">
+            <div class="d-flex justify-content-between">
+                <!-- Barra di ricerca -->
+                <form method="GET" class="d-flex me-2" role="search">
+                    <input 
+                        class="form-control me-2" 
+                        type="search" 
+                        name="q" 
+                        placeholder="Cerca" 
+                        aria-label="Cerca"
+                        value="{{ query|default:'' }}"
+                    >
+                    <button class="btn btn-outline-success" type="submit">Cerca</button>
+                    {% if query %}
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">Reset</a>
+                    {% endif %}
+                </form>
+                <!-- Bottone per aprire il modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleContatto">
+                    <i class="bi bi-plus-lg"></i> Crea Contatto
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    {% include 'Components/modal.html' %}
+    {% if form.errors %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = new bootstrap.Modal(document.getElementById('modaleContatto'));
+            modal.show();
+  });
+</script>
+{% endif %}
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cognome</th>
+                    <th scope="col">Numero</th>
+                    <th scope="col">Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contatto in contatti %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ contatto.nome }}</td>
+                    <td>{{ contatto.cognome }}</td>
+                    <td>{{ contatto.telefono }}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modaleModifica{{ contatto.id }}">Modifica</button>
+                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modaleElimina{{ contatto.id }}">Elimina</button>
+                    </td>
+                
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">Nessun contatto presente.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% include 'Components/modifica.html' %}
+{% include 'Components/elimina.html' %}
+{% endblock %}

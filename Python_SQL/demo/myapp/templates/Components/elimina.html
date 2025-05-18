@@ -1,0 +1,24 @@
+{% for contatto in contatti %}
+<div class="modal fade" id="modaleElimina{{ contatto.id }}" tabindex="-1" aria-labelledby="modaleEliminaLabel{{ contatto.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="azione" value="elimina">
+        <input type="hidden" name="contatto_id" value="{{ contatto.id }}">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="modaleEliminaLabel{{ contatto.id }}">Elimina Contatto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+        </div>
+        <div class="modal-body">
+          Sei sicuro di voler eliminare questo contatto?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+          <button type="submit" class="btn btn-danger">Elimina</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}

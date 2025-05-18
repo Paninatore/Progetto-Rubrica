@@ -1,0 +1,47 @@
+<div class="modal fade" id="modaleContatto" tabindex="-1" aria-labelledby="modaleContattoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="azione" value="crea">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modaleContattoLabel">Nuovo Contatto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="{{ form.nome.id_for_label }}" class="form-label">Nome</label>
+            {{ form.nome }}
+            {% if form.nome.errors %}
+              <div class="text-danger small">{{ form.nome.errors|striptags }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.cognome.id_for_label }}" class="form-label">Cognome</label>
+            {{ form.cognome }}
+            {% if form.cognome.errors %}
+              <div class="text-danger small">{{ form.cognome.errors|striptags }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.telefono.id_for_label }}" class="form-label">Numero</label>
+            {{ form.telefono }}
+            {% if form.telefono.errors %}
+              <div class="text-danger small">{{ form.telefono.errors|striptags }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+          <button type="submit" class="btn btn-primary">Salva</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
